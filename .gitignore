@@ -1,0 +1,32 @@
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Virtual Environments inside backend/
+backend/venv/
+
+# Environment Variables
+.env
+.env.local
+
+# IDE & Editor Configs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Docker / System Logs
+*.log
+.DS_Store
+Thumbs.db
