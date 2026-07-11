@@ -48,7 +48,7 @@ async function fetchTasks() {
         const response = await fetch(`${API_BASE}/tasks`);
         if (!response.ok) throw new Error('Failed to fetch tasks');
         tasks = await response.json();
-        
+
         updateConnectionStatus('connected', 'Connected to Database');
         renderTasks();
     } catch (error) {
@@ -64,15 +64,15 @@ async function fetchTasks() {
 // Create new task
 async function handleTaskSubmit(e) {
     e.preventDefault();
-    
+
     const title = taskTitleInput.value.trim();
     const description = taskDescInput.value.trim();
-    
+
     if (!title) return;
 
     const submitBtn = document.getElementById('submit-btn');
     submitBtn.disabled = true;
-    
+
     try {
         const response = await fetch(`${API_BASE}/tasks`, {
             method: 'POST',
@@ -83,10 +83,10 @@ async function handleTaskSubmit(e) {
         });
 
         if (!response.ok) throw new Error('Failed to create task');
-        
+
         const newTask = await response.json();
         tasks.unshift(newTask); // Add to beginning of array
-        
+
         renderTasks();
         taskForm.reset();
         showToast('Task created successfully', 'success');
@@ -103,9 +103,9 @@ async function toggleTaskStatus(taskId) {
     try {
         const task = tasks.find(t => t.id === taskId);
         if (!task) return;
-        
+
         const updatedStatus = !task.completed;
-        
+
         const response = await fetch(`${API_BASE}/tasks/${taskId}`, {
             method: 'PUT',
             headers: {
@@ -115,19 +115,19 @@ async function toggleTaskStatus(taskId) {
         });
 
         if (!response.ok) throw new Error('Failed to update task');
-        
+
         const updatedTask = await response.json();
-        
+
         // Update local tasks state
         tasks = tasks.map(t => t.id === taskId ? updatedTask : t);
-        
+
         // Render updated state
         renderTasks();
         showToast(updatedStatus ? 'Task completed!' : 'Task active', 'info');
     } catch (error) {
         console.error('API Error:', error);
         showToast('Could not update task status', 'danger');
-        
+
         // Reset checkbox check visually in case of failure
         fetchTasks();
     }
@@ -136,7 +136,7 @@ async function toggleTaskStatus(taskId) {
 // Delete Task
 async function deleteTask(taskId, cardElement) {
     cardElement.classList.add('fade-out');
-    
+
     // Wait for fade-out animation to complete
     setTimeout(async () => {
         try {
@@ -145,10 +145,10 @@ async function deleteTask(taskId, cardElement) {
             });
 
             if (!response.ok) throw new Error('Failed to delete task');
-            
+
             // Remove from local tasks array
             tasks = tasks.filter(t => t.id !== taskId);
-            
+
             renderTasks();
             showToast('Task removed', 'danger');
         } catch (error) {
@@ -162,7 +162,7 @@ async function deleteTask(taskId, cardElement) {
 // Render Tasks based on Filters
 function renderTasks() {
     taskListContainer.innerHTML = '';
-    
+
     const filteredTasks = tasks.filter(task => {
         if (currentFilter === 'pending') return !task.completed;
         if (currentFilter === 'completed') return task.completed;
@@ -191,14 +191,14 @@ function createTaskCard(task) {
     card.dataset.id = task.id;
 
     card.innerHTML = `
-        <label class="task-checkbox-container">
+        <div class="task-checkbox-container">
             <input type="checkbox" ${task.completed ? 'checked' : ''}>
             <span class="checkmark">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </span>
-        </label>
+        </div>
         <div class="task-details">
             <h4 class="task-card-title">${escapeHTML(task.title)}</h4>
             ${task.description ? `<p class="task-card-desc">${escapeHTML(task.description)}</p>` : ''}
@@ -238,7 +238,7 @@ function updateStats() {
 function animateCounter(element, targetVal) {
     const currentVal = parseInt(element.textContent) || 0;
     if (currentVal === targetVal) return;
-    
+
     element.textContent = targetVal;
 }
 
@@ -273,7 +273,7 @@ function updateConnectionStatus(status, text) {
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
-    
+
     let icon = '';
     if (type === 'success') {
         icon = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent-success)"><polyline points="20 6 9 17 4 12"/></svg>`;
@@ -285,7 +285,7 @@ function showToast(message, type = 'info') {
 
     toast.innerHTML = `${icon} <span>${message}</span>`;
     toastContainer.appendChild(toast);
-    
+
     // Auto-remove toast
     setTimeout(() => {
         toast.style.animation = 'toast-slide 0.3s cubic-bezier(0.16, 1, 0.3, 1) reverse forwards';
@@ -296,7 +296,7 @@ function showToast(message, type = 'info') {
 // Helper: Escape HTML to prevent XSS
 function escapeHTML(str) {
     if (!str) return '';
-    return str.replace(/[&<>'"]/g, 
+    return str.replace(/[&<>'"]/g,
         tag => ({
             '&': '&amp;',
             '<': '&lt;',
