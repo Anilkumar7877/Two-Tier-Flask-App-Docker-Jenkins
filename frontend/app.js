@@ -191,14 +191,14 @@ function createTaskCard(task) {
     card.dataset.id = task.id;
 
     card.innerHTML = `
-        <div class="task-checkbox-container">
+        <label class="task-checkbox-container">
             <input type="checkbox" ${task.completed ? 'checked' : ''}>
             <span class="checkmark">
                 <svg viewBox="0 0 24 24" stroke="currentColor">
                     <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
             </span>
-        </div>
+        </label>
         <div class="task-details">
             <h4 class="task-card-title">${escapeHTML(task.title)}</h4>
             ${task.description ? `<p class="task-card-desc">${escapeHTML(task.description)}</p>` : ''}
