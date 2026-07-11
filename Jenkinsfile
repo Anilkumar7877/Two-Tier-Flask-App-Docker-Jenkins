@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Anilkumar7877/two-tier-flask-app.git', credentialsId: 'github-pat'
+                git branch: 'main', url: 'https://github.com/Anilkumar7877/Two-Tier-Flask-App-Docker-Jenkins.git', credentialsId: 'github-pat'
             }
         }
 
