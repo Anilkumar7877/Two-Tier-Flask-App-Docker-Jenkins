@@ -12,8 +12,11 @@
 
 A containerized, two-tier task management application (SPA) with a Flask REST API backend, a MySQL database, and a responsive glassmorphic frontend. This project is configured for automated deployment using a Jenkins CI/CD pipeline.
 
-![Dashboard UI](public/image-3.png)
 
+## Architecture Diagram
+
+
+![Architecture Diagram](public/two_tier_cicd_pipeline_v3.svg)
 ---
 
 ## 📸 Infrastructure & Application Showcase
